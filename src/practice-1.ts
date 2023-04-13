@@ -4,19 +4,20 @@ type Group = {
   group: string;
   items: Item[];
 };
+
 // class code from a random peep on internet
 class GroupBy {
-  static letter(arr: any, key: any) {
-    return Array.from(
-      arr.reduce((map: any, item: any) => {
-        const firstLetter = item[key][0].toUpperCase();
-        const group = map.get(firstLetter) || { group: firstLetter, items: [] };
-        group.items.push(item);
-        map.set(firstLetter, group);
-        return map;
-      }, new Map()),
-      ([, value]) => value,
-    );
+  static letter(arr: Item[], key: keyof Item) /**: Group[] */ {
+    const reduced = arr.reduce((map, item) => {
+      const [keyLetter] = item[key].toString().toUpperCase();
+      const group = map.get(keyLetter) || { group: keyLetter, items: [] };
+      group.items.push(item);
+      map.set(keyLetter, group);
+      return map;
+    }, new Map<string, Group>());
+
+    console.log(reduced);
+    return Array.from(reduced, ([, value]) => value);
   }
 
   static date(arr: any, key: any) {
@@ -37,7 +38,11 @@ class GroupBy {
 import { assertEquals } from "https://deno.land/std@0.183.0/testing/asserts.ts";
 
 Deno.test("url test", () => {
-  assertEquals(GroupBy.letter(data, "owner"), assert);
+  const result = GroupBy.letter(data, "owner");
+  assertEquals(result, assert);
+
+  const item = result[0].items[0];
+  console.log(item.time);
 });
 
 const anItem = {
