@@ -1,3 +1,9 @@
+type Item = typeof anItem;
+
+type Group = {
+  group: string;
+  items: Item[];
+};
 // class code from a random peep on internet
 class GroupBy {
   static letter(arr: any, key: any) {
@@ -33,6 +39,15 @@ import { assertEquals } from "https://deno.land/std@0.183.0/testing/asserts.ts";
 Deno.test("url test", () => {
   assertEquals(GroupBy.letter(data, "owner"), assert);
 });
+
+const anItem = {
+  game_id: 1,
+  notes: "Game was played",
+  owner: "steve",
+  players: "10",
+  sport: "hockey",
+  time: "2017-10-04T20:24:30+00:00",
+};
 
 const assert = [
   {
