@@ -32,6 +32,9 @@ class GroupBy {
     return Array.from(reduced, ([, value]) => value);
   }
 
+  /**
+   * @todo
+   */
   static date(arr: any, key: any) {
     return Array.from(
       arr.reduce((map: any, item: any) => {
