@@ -2,13 +2,13 @@ type Item = typeof anItem;
 
 type Group<I extends Record<string, number | string>> = {
   group: string;
-  items: I[];
+  items: Array<Readonly<I>>;
 };
 
 // class code from a random peep on internet
 class GroupBy {
   static letter<T extends Record<string, number | string>>(
-    arr: T[],
+    arr: ReadonlyArray<T>,
     key: keyof T,
   ) /**: Group[] */ {
     const reduced = arr.reduce(
@@ -19,7 +19,7 @@ class GroupBy {
         map.set(keyLetter, group);
         return map;
       },
-      new Map<string, Group<T>>(),
+      new Map<string, Readonly<Group<T>>>(),
     );
 
     console.log(reduced);
@@ -47,8 +47,10 @@ Deno.test("url test", () => {
   const result = GroupBy.letter(data, "owner");
   assertEquals(result, assert);
 
-  const item = result[0].items[0];
-  console.log(item.time);
+  // const item = result[0].items[0];
+  const [item] = result;
+  const { items: [firstItem] } = item;
+  console.log(item);
 });
 
 const anItem = {
