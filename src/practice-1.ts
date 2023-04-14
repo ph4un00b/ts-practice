@@ -1,20 +1,26 @@
 type Item = typeof anItem;
 
-type Group = {
+type Group<I extends Record<string, number | string>> = {
   group: string;
-  items: Item[];
+  items: I[];
 };
 
 // class code from a random peep on internet
 class GroupBy {
-  static letter(arr: Item[], key: keyof Item) /**: Group[] */ {
-    const reduced = arr.reduce((map, item) => {
-      const [keyLetter] = item[key].toString().toUpperCase();
-      const group = map.get(keyLetter) || { group: keyLetter, items: [] };
-      group.items.push(item);
-      map.set(keyLetter, group);
-      return map;
-    }, new Map<string, Group>());
+  static letter<T extends Record<string, number | string>>(
+    arr: T[],
+    key: keyof T,
+  ) /**: Group[] */ {
+    const reduced = arr.reduce(
+      (map, item) => {
+        const [keyLetter] = item[key].toString().toUpperCase();
+        const group = map.get(keyLetter) || { group: keyLetter, items: [] };
+        group.items.push(item);
+        map.set(keyLetter, group);
+        return map;
+      },
+      new Map<string, Group<T>>(),
+    );
 
     console.log(reduced);
     return Array.from(reduced, ([, value]) => value);
