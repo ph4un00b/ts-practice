@@ -1,3 +1,9 @@
+/**
+ * @abstract
+ * typescript flavor:
+ * school of type inference
+ */
+
 type Item = typeof anItem;
 
 type Group<I extends Record<string, number | string>> = {
@@ -10,7 +16,7 @@ class GroupBy {
   static letter<T extends Record<string, number | string>>(
     arr: ReadonlyArray<T>,
     key: keyof T,
-  ) /**: Group[] */ {
+  ) {
     const reduced = arr.reduce(
       (map, item) => {
         const [keyLetter] = item[key].toString().toUpperCase();
@@ -50,6 +56,10 @@ Deno.test("letter", () => {
   // const item = result[0].items[0];
   const [item] = result;
   const { items: [firstItem] } = item;
+  /**
+   * @description
+   * relying on type inference
+   */
   console.log(firstItem.time = "jamon");
 });
 
