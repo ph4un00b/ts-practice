@@ -43,14 +43,14 @@ class GroupBy {
 
 import { assertEquals } from "https://deno.land/std@0.183.0/testing/asserts.ts";
 
-Deno.test("url test", () => {
+Deno.test("letter", () => {
   const result = GroupBy.letter(data, "owner");
-  assertEquals(result, assert);
+  assertEquals(result, expected);
 
   // const item = result[0].items[0];
   const [item] = result;
   const { items: [firstItem] } = item;
-  console.log(item);
+  console.log(firstItem.time = "jamon");
 });
 
 const anItem = {
@@ -62,7 +62,7 @@ const anItem = {
   time: "2017-10-04T20:24:30+00:00",
 };
 
-const assert = [
+const expected = [
   {
     group: "S",
     items: [
