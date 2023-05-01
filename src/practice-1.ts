@@ -13,9 +13,9 @@ type Group<I extends Record<string, number | string>> = {
 
 // class code from a random peep on internet
 class GroupBy {
-  static letter<T extends Record<string, number | string>>(
+  static letter<T extends Record<string, number | string>, TKey extends keyof T>(
     arr: ReadonlyArray<T>,
-    key: keyof T,
+    key: TKey,
   ) {
     const reduced = arr.reduce(
       (map, item) => {
