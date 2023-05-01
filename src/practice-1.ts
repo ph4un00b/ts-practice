@@ -20,19 +20,14 @@ class GroupBy {
     arr: readonly T[],
     key: TKey,
   ) {
-    const reduced = arr.reduce(
-      (map, item) => {
-        const [keyLetter] = String(item[key]).toUpperCase();
-        const group = map.get(keyLetter) ?? { group: keyLetter, items: [] };
-        group.items.push(item);
-        map.set(keyLetter, group);
-        return map;
-      },
-      new Map<string, Group<T>>(),
-    );
-
-    console.log(reduced);
-    return Array.from(reduced.values());
+    const groups = new Map<string, Group<T>>();
+    for (const item of arr) {
+      const [keyLetter] = String(item[key]).toUpperCase();
+      const group = groups.get(keyLetter) ?? { group: keyLetter, items: [] };
+      group.items.push(item);
+      groups.set(keyLetter, group);
+    }
+    return Array.from(groups.values());
   }
 
   /**
@@ -59,6 +54,9 @@ Deno.test("letter", () => {
   const result = GroupBy.letter(data, "owner");
   assertEquals(result, expected);
 
+  const result2 = GroupBy.letter(people, "name");
+  console.log(result2[0].items[0].name = "2");
+
   // const item = result[0].items[0];
   const [item] = result;
   const { items: [firstItem] } = item;
@@ -68,6 +66,12 @@ Deno.test("letter", () => {
    */
   console.log(firstItem.time = "jamon");
 });
+
+const people = [
+  { name: "Alice", age: 20 },
+  { name: "Bob", age: 25 },
+  { name: "Charlie", age: 30 },
+];
 
 const anItem = {
   game_id: 1,
