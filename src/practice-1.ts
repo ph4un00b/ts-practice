@@ -13,23 +13,26 @@ type Group<I extends Record<string, number | string>> = {
 
 // class code from a random peep on internet
 class GroupBy {
-  static letter<T extends Record<string, number | string>, TKey extends keyof T>(
-    arr: ReadonlyArray<T>,
+  static letter<
+    T extends Record<string, number | string>,
+    TKey extends keyof T,
+  >(
+    arr: readonly T[],
     key: TKey,
   ) {
     const reduced = arr.reduce(
       (map, item) => {
-        const [keyLetter] = item[key].toString().toUpperCase();
-        const group = map.get(keyLetter) || { group: keyLetter, items: [] };
+        const [keyLetter] = String(item[key]).toUpperCase();
+        const group = map.get(keyLetter) ?? { group: keyLetter, items: [] };
         group.items.push(item);
         map.set(keyLetter, group);
         return map;
       },
-      new Map<string, Readonly<Group<T>>>(),
+      new Map<string, Group<T>>(),
     );
 
     console.log(reduced);
-    return Array.from(reduced, ([, value]) => value);
+    return Array.from(reduced.values());
   }
 
   /**
